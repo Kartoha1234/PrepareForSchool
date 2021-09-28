@@ -8,9 +8,9 @@ public class Homeworks {
     private String Source;
     private String Tasks;
     private String EnteredBy;
-    private Date DateOfYear;
+    private String DateOfYear;
 
-    public Homeworks(int id, String day, String subject, String source, String tasks, String enteredBy, Date dateOfYear) {
+    public Homeworks(int id, String day, String subject, String source, String tasks, String enteredBy, String dateOfYear) {
         HomeworksID = id;
         DayOfWeek = day;
         Subject = subject;
@@ -37,7 +37,7 @@ public class Homeworks {
     public String GetEnteredBy(){
         return EnteredBy;
     }
-    public Date GetDateOfYear(){
+    public String GetDateOfYear(){
         return DateOfYear;
     }
 }
