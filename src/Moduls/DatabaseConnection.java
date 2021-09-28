@@ -1,69 +1,78 @@
 package Moduls;
+
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.*;
-import java.util.Date;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Scanner;
 
+// Ka izsaukt InsertAllDataToHomework metodi?
+
 public class DatabaseConnection {
-    public void ConnectToDatabase() {
-        final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
-        final String user = "root";
-        final String password = "Zemene34";
-        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
-            ArrayList<Homeworks> allHomeworks = ReadAllHomeworks(conn);
+    final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
+    final String user = "root";
+    final String password = "Kristykatja12";
 
-            // Ka izsaukt InsertAllDataToHomework metodi?
-
-            System.out.println("Is connected");
-        } catch (SQLException e) {
-            System.out.println("Something went wrong");
-        }
-    }
-
-    public ArrayList<Homeworks> ReadAllHomeworks(Connection conn) throws SQLException {
-        String sql = "SELECT * FROM homeworks";
-
-        Statement statement = conn.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
-
+    public ArrayList<Homeworks> ReadAllHomeworks() throws SQLException {
         ArrayList<Homeworks> result = new ArrayList<Homeworks>();
 
-        while (resultSet.next()) {
+        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
+            String sql = "SELECT * FROM homeworks";
 
-            Homeworks homework = new Homeworks(
-                    resultSet.getInt(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6),
-                    resultSet.getString(7));
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
 
-            result.add(homework);
+            while (resultSet.next()) {
+
+                Homeworks homework = new Homeworks(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getString(5),
+                        resultSet.getString(6),
+                        resultSet.getString(7));
+
+                result.add(homework);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+            result = null;
+
         }
         return result;
 
     }
 
-    public static void insertALLDataToHomework(Connection conn, Integer HomeworksID, String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
-        String sql = "INSERT INTO users (hw_id, day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, HomeworksID);
-        preparedStatement.setString(2, DayOfWeek);
-        preparedStatement.setString(3, Subject);
-        preparedStatement.setString(4, Source);
-        preparedStatement.setString(5, Tasks);
-        preparedStatement.setString(6, EnteredBy);
-        preparedStatement.setString(7, DateOfYear);
-        int rowInserted = preparedStatement.executeUpdate();
-        if (rowInserted > 0) {
-            System.out.println("Homework is successfully added");
-        } else {
+    public void InsertDataToHomework(Integer HomeworksID, String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
+
+            //String str="2015-03-31";
+            Date date = Date.valueOf(DateOfYear);//converting string into sql date
+            String sql = "INSERT INTO homeworks (hw_id, day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, HomeworksID);
+            preparedStatement.setString(2, DayOfWeek);
+            preparedStatement.setString(3, Subject);
+            preparedStatement.setString(4, Source);
+            preparedStatement.setString(5, Tasks);
+            preparedStatement.setString(6, EnteredBy);
+            preparedStatement.setDate(7, date);
+            int rowInserted = preparedStatement.executeUpdate();
+            if (rowInserted > 0) {
+                System.out.println("Homework is successfully added");
+            } else {
+                System.out.println("Something went wrong");
+            }
+        } catch (Exception e) {
             System.out.println("Something went wrong");
         }
-}
+    }
 
 
        /* public ArrayList<PrepareForSchool> ReadAllPrepareForSchool (Connection conn) throws SQLException{
