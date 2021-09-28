@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DatabaseConnection {
-    public void ConnectToDatabase() {
-        final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
-        final String user = "root";
-        final String password = "Zemene34";
+    final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
+    final String user = "root";
+    final String password = "011RDBrdb230*";
+
+    /*public void ConnectToDatabase() {
+
+
         try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
-            ArrayList<Homeworks> allHomeworks = ReadAllHomeworks(conn);
+           // ArrayList<Homeworks> allHomeworks = ReadAllHomeworks(conn);
 
             // Ka izsaukt InsertAllDataToHomework metodi?
 
@@ -20,15 +23,16 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             System.out.println("Something went wrong");
         }
-    }
+    }*/
 
-    public ArrayList<Homeworks> ReadAllHomeworks(Connection conn) throws SQLException {
+    public static void ReadAllHomeworks(Connection conn) throws SQLException {
+
         String sql = "SELECT * FROM homeworks";
 
         Statement statement = conn.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
 
-        ArrayList<Homeworks> result = new ArrayList<Homeworks>();
+
 
         while (resultSet.next()) {
 
@@ -41,14 +45,17 @@ public class DatabaseConnection {
                     resultSet.getString(6),
                     resultSet.getString(7));
 
-            result.add(homework);
+            String output = "Homework info: \n\t id: %d \n\t day_of_week: %s \n\t subject: %s " +
+                    "\n\t source: %s \n\t tasks: %s \n\t entered_by: %s \n\t ";
+            System.out.println(String.format(output, homework.GetId(),homework.GetDay(),homework.GetSubject(),homework.GetSource(),homework.GetTasks(),homework.GetEnteredBy()));
         }
-        return result;
+
 
     }
 
-    public static void insertALLDataToHomework(Connection conn, Integer HomeworksID, String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
-        String sql = "INSERT INTO users (hw_id, day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public  void InsertALLDataToHomework(Connection conn, Integer HomeworksID, String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
+
+        String sql = "INSERT INTO homeworks (hw_id, day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setInt(1, HomeworksID);
         preparedStatement.setString(2, DayOfWeek);
