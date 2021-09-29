@@ -12,6 +12,17 @@ public class BaseFlow {
                 DatabaseConnection dbManager = new DatabaseConnection();
                 try {
                     ArrayList<Homeworks> allHomeworks = dbManager.ReadAllHomeworks();
+                    for (int i = 0; i < allHomeworks.size(); i++){
+                        Homeworks homework = allHomeworks.get(i);
+                        System.out.println("_______________");
+                        System.out.println("ID: " + homework.GetId());
+                        System.out.println("Day od week: " + homework.GetDay());
+                        System.out.println("Subject: " + homework.GetSubject());
+                        System.out.println("Source: "+ homework.GetSource());
+                        System.out.println("Tasks: " + homework.GetTasks());
+                        System.out.println("Entered by: " + homework.GetEnteredBy());
+                        System.out.println("Date of year: " + homework.GetDateOfYear());
+                    }
                 } catch (Exception e){
                     System.out.println("Something went wrong");
                 }
