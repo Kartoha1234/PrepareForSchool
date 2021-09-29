@@ -25,8 +25,8 @@ public class DatabaseConnection {
         }
     }*/
 
-    public static void ReadAllHomeworks(Connection conn) throws SQLException {
-
+    public  void ReadAllHomeworks() throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL,user,password)){
         String sql = "SELECT * FROM homeworks";
 
         Statement statement = conn.createStatement();
@@ -49,12 +49,15 @@ public class DatabaseConnection {
                     "\n\t source: %s \n\t tasks: %s \n\t entered_by: %s \n\t ";
             System.out.println(String.format(output, homework.GetId(),homework.GetDay(),homework.GetSubject(),homework.GetSource(),homework.GetTasks(),homework.GetEnteredBy()));
         }
-
+        }  catch(Exception e) {
+            // Handle errors for Class.forName
+            e.printStackTrace();
+        }
 
     }
 
-    public  void InsertALLDataToHomework(Connection conn, Integer HomeworksID, String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
-
+    public  void InsertALLDataToHomework(Integer HomeworksID, String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL,user,password)){
         String sql = "INSERT INTO homeworks (hw_id, day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setInt(1, HomeworksID);
@@ -70,30 +73,12 @@ public class DatabaseConnection {
         } else {
             System.out.println("Something went wrong");
         }
+        }  catch(Exception e) {
+            // Handle errors for Class.forName
+            e.printStackTrace();
+        } // end try
 }
 
 
-       /* public ArrayList<PrepareForSchool> ReadAllPrepareForSchool (Connection conn) throws SQLException{
-            String sql2 = "SELECT * FROM prepareforschool";
-
-            Statement statement2 = conn.createStatement();
-            ResultSet resultSet2 = statement2.executeQuery(sql2);
-
-            ArrayList<PrepareForSchool> result = new ArrayList<PrepareForSchool>();
-
-
-            while (resultSet2.next()) {
-                int PfsId = resultSet2.getInt(1);
-                String DayOfWeek = resultSet2.getString(2);
-                String Subject = resultSet2.getString(3);
-                String  Quarter = resultSet2.getString(4);
-
-                String output = "Prepareforschool info: \n\t ID: %d \n\t day of week: %s \n\t subject: %s " +
-                        "\n\t quarter: %s";
-
-                System.out.println(String.format(output, PfsId, DayOfWeek, Subject, Quarter));
-
-            }
-        }*/
 
 }
