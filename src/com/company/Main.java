@@ -3,9 +3,12 @@ package com.company;
 import Moduls.DatabaseConnection;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
-
 import static java.sql.Types.NULL;
 
 public class Main {
@@ -31,11 +34,10 @@ public class Main {
                     // On which date do you want to add homework?
                     System.out.println("On which date do you want to add homework?");
                     String DateOfYear = scanner.nextLine();
-                    String DayOfWeek = DateOfYear;
+                   // String DayOfWeek = getDay();
+                        String DayOfWeek = "bbbb";
 
-
-
-                    //Which lesson from 23.05.2021 (math-m, english-e etc)?
+            //Which lesson from 23.05.2021 (math-m, english-e etc)?
                     System.out.println("Which lesson from (math-m, english-e etc)?");
                     String Subject = scanner.nextLine();
 
@@ -57,6 +59,81 @@ public class Main {
 
 
         }
+
+    public static String getDay() throws Exception{
+        Scanner scanner = new Scanner(System.in);
+//int value;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Ievadi datumu (GGGG-MM-DD) : ");
+
+        String date = scanner.nextLine();
+       //Date date3 = Date.(date);
+        Date date2 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+
+        String day = "";
+
+        //String DateOfYear = scanner.nextLine();
+        //String DayOfWeek = DateOfYear;
+        //ArrayList<String> DateOfYear  = new ArrayList<>();
+        // DateOfYear.add("year");
+        //DateOfYear.add("month");
+        // DateOfYear.add("day");
+        // System.out.println(DateOfYear);
+
+        //  String year = in.next();
+        // String month = in.next();
+        //String day = in.next();
+
+
+        Calendar c = Calendar.getInstance();
+        //c.set(Integer.parseInt(year), Integer.parseInt(month)-1,Integer.parseInt(day));
+        //String dayOfWeek = getDayOfWeek(c.get(Calendar.DAY_OF_WEEK));
+        c.setTime(date2);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+
+        switch(dayOfWeek){
+            case 1:
+                day="svetdiena";
+                break;
+            case 2:
+                day="pirmdiena";
+                break;
+            case 3:
+                day="otrdiena";
+                break;
+            case 4:
+                day="trešdiena";
+                break;
+            case 5:
+                day="ceturtdiena";
+                break;
+            case 6:
+                day="piektdiena";
+                break;
+            case 7:
+                day="sestdiena";
+                break;
+        }
+
+        // System.out.println(dayOfWeek.toLowerCase().trim());
+        //  System.out.println(dayOfWeek);
+        System.out.println(date);
+        System.out.println(date2);
+
+        return day;
+    }
+
+    /*private  String getDayOfWeek(int value){
+
+        return day;
+    }
+
+
+
+            return DayOfWeek;
+    }
+*/
+
         public static String  addTask () {
 
             Scanner scanner = new Scanner(System.in);

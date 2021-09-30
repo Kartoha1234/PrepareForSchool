@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class DatabaseConnection {
     final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
     final String user = "root";
-    final String password = "Kristykatja12";
+    final String password = "Zemene34";
 
     /*public void ConnectToDatabase() {
 
