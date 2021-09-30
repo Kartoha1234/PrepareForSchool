@@ -12,7 +12,6 @@ public class Main {
 
         public static void main(String[] args) throws SQLException {
             DatabaseConnection db = new DatabaseConnection();
-
             char again = 'y';
             Scanner scanner = new Scanner(System.in);
 

@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class DatabaseConnection {
     final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
     final String user = "root";
-    final String password = "011RDBrdb230*";
+    final String password = "Kristykatja12";
 
     /*public void ConnectToDatabase() {
 
@@ -32,10 +32,7 @@ public class DatabaseConnection {
         Statement statement = conn.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
 
-
-
         while (resultSet.next()) {
-
             Homeworks homework = new Homeworks(
                     resultSet.getInt(1),
                     resultSet.getString(2),
@@ -57,28 +54,51 @@ public class DatabaseConnection {
     }
 
     public  void InsertALLDataToHomework(Integer HomeworksID, String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
-        try (Connection conn = DriverManager.getConnection(dbURL,user,password)){
-        String sql = "INSERT INTO homeworks (hw_id, day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, HomeworksID);
-        preparedStatement.setString(2, DayOfWeek);
-        preparedStatement.setString(3, Subject);
-        preparedStatement.setString(4, Source);
-        preparedStatement.setString(5, Tasks);
-        preparedStatement.setString(6, EnteredBy);
-        preparedStatement.setString(7, DateOfYear);
-        int rowInserted = preparedStatement.executeUpdate();
-        if (rowInserted > 0) {
-            System.out.println("Homework is successfully added");
-        } else {
-            System.out.println("Something went wrong");
-        }
-        }  catch(Exception e) {
+        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
+            String sql = "INSERT INTO homeworks (hw_id, day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, HomeworksID);
+            preparedStatement.setString(2, DayOfWeek);
+            preparedStatement.setString(3, Subject);
+            preparedStatement.setString(4, Source);
+            preparedStatement.setString(5, Tasks);
+            preparedStatement.setString(6, EnteredBy);
+            preparedStatement.setString(7, DateOfYear);
+            int rowInserted = preparedStatement.executeUpdate();
+            if (rowInserted > 0) {
+                System.out.println("Homework is successfully added");
+            } else {
+                System.out.println("Something went wrong");
+            }
+        } catch (Exception e) {
             // Handle errors for Class.forName
             e.printStackTrace();
         } // end try
+    }
+
+    public  void ReadAllPrepareForSchool() throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL,user,password)){
+            String sql = "SELECT * from prepareforschool";
+
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                PrepareForSchool prepareForSchool = new PrepareForSchool(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getInt(4));
+
+                String output = "Prepare for school info: \n\t id: %d \n\t day_of_week: %s \n\t subject: %s " +
+                        "\n\t qurter: %s ";
+                System.out.println(String.format(output, prepareForSchool.GetId(),prepareForSchool.GetDay(),prepareForSchool.GetSubject(),prepareForSchool.GetQuarter()));
+            }
+        }  catch(Exception e) {
+            // Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+    }
 }
 
-
-
-}
