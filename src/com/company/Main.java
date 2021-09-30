@@ -3,6 +3,7 @@ package com.company;
 import Moduls.DatabaseConnection;
 
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Scanner;
 
 import static java.sql.Types.NULL;
@@ -39,24 +40,58 @@ public class Main {
                     String Subject = scanner.nextLine();
 
 
-                    //Please enter home work in such format (page, task, comment):
-                    System.out.println("Please enter home work in such format (page, task, comment): for lesson ");
-                    String Tasks = scanner.nextLine();
-                    //create java class
 
-                    db.InsertALLDataToHomework(NULL, DayOfWeek,Source,Subject,Tasks,EnteredBy,DateOfYear);
+                    System.out.println("Pievieno mājas darbu. Priekšmets: " + Subject);
+                    String tasks = addTask();
+
+                    db.InsertALLDataToHomework(NULL, DayOfWeek,Source,Subject,tasks,EnteredBy,DateOfYear);
 
                 } else if (action == 'c' ) {
                     String EnteredBy = "Child";
                     db.ReadAllHomeworks();
-                }/*else{
-                    // check if it not p or c character - what be the next action?
-                }*/
+                }
 
             }
             System.out.println("Do you want to do something more? y/n");
             again = scanner.nextLine().charAt(0);
 
+
+        }
+        public static String  addTask () {
+
+            Scanner scanner = new Scanner(System.in);
+            String tasks;
+
+            System.out.println("Kāda lapaspuse? piem. 15. Ja nav ievadit 0");
+            while(!scanner.hasNextInt() ){
+                String lpp = scanner.next().toLowerCase().trim();
+                System.out.println("Kāda lapaspuse? piem. 15");
+            }
+               String lpp = scanner.next().toLowerCase().trim();
+
+            System.out.println("Kāds uzdevums? piem. 1. Ja nav ievadīt 0");
+            while(!scanner.hasNextInt()){
+                String uzd = scanner.next().toLowerCase().trim();
+                System.out.println("Kāds uzdevums? piem. 1");
+            }
+                String uzd = scanner.next().toLowerCase().trim();
+            scanner.nextLine();
+
+            System.out.println("Papildus komentāri un pārējie uzdevumi:");
+            String not = scanner.nextLine().toLowerCase();
+
+            if(lpp.equals("0") && uzd.equals("0") ){
+                 tasks = not;
+            }else if(uzd.equals("0")){
+                 tasks = lpp +".lpp " + not;
+            }else if(lpp.equals("0")){
+                 tasks = uzd + ".uzd " + not;
+            }else{
+                tasks = (lpp +".lpp " + uzd + ".uzd " + not);
+
+            }
+            System.out.println(tasks);
+            return tasks;
 
         }
 
