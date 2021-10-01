@@ -12,37 +12,37 @@ import java.util.Scanner;
 public class DatabaseConnection {
     final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
     final String user = "root";
-    final String password = "Zemene34";
+    final String password = "011RDBrdb230*";
 
-    public  void ReadAllHomeworks() throws SQLException {
-        try (Connection conn = DriverManager.getConnection(dbURL,user,password)){
-        String sql = "SELECT * FROM homeworks";
+    public void ReadAllHomeworks() throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
+            String sql = "SELECT * FROM homeworks";
 
-        Statement statement = conn.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
 
-        while (resultSet.next()) {
-            Homeworks homework = new Homeworks(
-                    resultSet.getInt(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6),
-                    resultSet.getString(7));
+            while (resultSet.next()) {
+                Homeworks homework = new Homeworks(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getString(5),
+                        resultSet.getString(6),
+                        resultSet.getString(7));
 
-            String output = "Homework info: \n\t id: %d \n\t day_of_week: %s \n\t subject: %s " +
-                    "\n\t source: %s \n\t tasks: %s \n\t entered_by: %s \n\t ";
-            System.out.println(String.format(output, homework.GetId(),homework.GetDay(),homework.GetSubject(),homework.GetSource(),homework.GetTasks(),homework.GetEnteredBy()));
-        }
-        }  catch(Exception e) {
+                String output = "Homework info: \n\t id: %d \n\t day_of_week: %s \n\t subject: %s " +
+                        "\n\t source: %s \n\t tasks: %s \n\t entered_by: %s \n\t ";
+                System.out.println(String.format(output, homework.GetId(), homework.GetDay(), homework.GetSubject(), homework.GetSource(), homework.GetTasks(), homework.GetEnteredBy()));
+            }
+        } catch (Exception e) {
             // Handle errors for Class.forName
             e.printStackTrace();
         }
 
     }
 
-    public  void InsertALLDataToHomework(String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
+    public void InsertALLDataToHomework(String DayOfWeek, String Source, String Subject, String Tasks, String EnteredBy, String DateOfYear) throws SQLException {
         try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
             String sql = "INSERT INTO homeworks ( day_of_week, subject, source, tasks, entered_by, date_of_year) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -64,8 +64,8 @@ public class DatabaseConnection {
         } // end try
     }
 
-    public  void ReadAllPrepareForSchool() throws SQLException {
-        try (Connection conn = DriverManager.getConnection(dbURL,user,password)){
+    public void ReadAllPrepareForSchool() throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
             String sql = "SELECT * from prepareforschool";
 
             Statement statement = conn.createStatement();
@@ -80,13 +80,35 @@ public class DatabaseConnection {
 
                 String output = "Prepare for school info: \n\t id: %d \n\t day_of_week: %s \n\t subject: %s " +
                         "\n\t qurter: %s ";
-                System.out.println(String.format(output, prepareForSchool.GetId(),prepareForSchool.GetDay(),prepareForSchool.GetSubject(),prepareForSchool.GetQuarter()));
+                System.out.println(String.format(output, prepareForSchool.GetId(), prepareForSchool.GetDay(), prepareForSchool.GetSubject(), prepareForSchool.GetQuarter()));
             }
-        }  catch(Exception e) {
+        } catch (Exception e) {
             // Handle errors for Class.forName
             e.printStackTrace();
         }
 
+    }
+
+    public void ReadPrepareForSchoolByDay(String day) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
+            String sql = "SELECT * from prepareforschool WHERE day_of_week = \'" + day + "\'";
+
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                PrepareForSchool prepareForSchool = new PrepareForSchool(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getInt(4));
+
+
+                String output = "%s";
+                System.out.println(String.format(output,prepareForSchool.GetSubject()));
+            }
+
+        }
     }
 }
 
