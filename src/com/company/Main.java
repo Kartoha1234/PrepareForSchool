@@ -2,9 +2,7 @@ package com.company;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -33,7 +31,7 @@ public class Main {
                 String DateOfYear = scanner.nextLine();
                 try{
                     DayOfWeek = getDayOfWeek(DateOfYear);
-                    System.out.println("Tests" + DayOfWeek);
+                    System.out.println(DayOfWeek);
                 }catch (Exception e){
                 }
 
@@ -48,17 +46,37 @@ public class Main {
 
             } else if (action == 'c') {
 
-                System.out.println("Do you want to see lessons or do homework? l/h");
-                if (action == 'l') {
 
-                    System.out.println("On which day do you want to see lessons?");
-                    DayOfWeek = scanner.nextLine();
+                char again2 = 'y';
+                while (again2 == 'y') {
+                    System.out.println("Do you want to see lessons or do homework? l/h");
+                    char action2 = scanner.nextLine().charAt(0);
 
-                    System.out.println("List of lessons on " + DayOfWeek + ": ");
+                    if (action2 == 'l') {
+
+
+                        System.out.println("On which date do you want to add homework?");
+                        String DateOfYear = scanner.nextLine();
+                        try{
+                            DayOfWeek = getDayOfWeek(DateOfYear);
+                            System.out.println("Lessons for " + DayOfWeek + ": ");
+                        }catch (Exception e){
+                        }
+
+                        ArrayList<String> DayNames = new ArrayList<String>(Arrays.asList("monday", "tuesday", "wednesday", "thursday", "friday"));
+
+                        if (DayNames.contains(DayOfWeek)) {
+                            db.ReadPrepareForSchoolByDay(DayOfWeek);
+                        }
+
+                } else if (action2 == 'h') {
+                        System.out.println("To be done soon, be back in some time!");
+                    }
+
+
                 }
 
-
-            } else if (action == 'h') {
+                } else if (action == 'h') {
                 db.ReadAllHomeworks();
             }
 
