@@ -110,5 +110,27 @@ public class DatabaseConnection {
 
         }
     }
+
+    public List<String> GetLessonsForTheDay(String day) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
+            // pieprasu subject no prepareforschool tabulas, kur day of week ir vienāds ar to ko mes padodam;
+            String sql = "SELECT subject FROM prepareforschool WHERE day_of_week='" + day + "'";
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            List<String> lessons = new ArrayList<>();
+            while (resultSet.next()) {
+                // nolasam vērtību, ja tāda ir
+                String subject = resultSet.getString("subject");
+                // ieliekam vērtību stundu sarakstā
+                lessons.add(subject);
+            }
+
+            return lessons;
+        } catch (Exception e) {
+            // Handle errors for Class.forName
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        }
+    }
 }
 
