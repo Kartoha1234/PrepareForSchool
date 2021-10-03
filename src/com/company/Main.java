@@ -81,7 +81,7 @@ public class Main {
 
                     if (action2 == 'l') {
 
-                        System.out.println("On which date do you want to see homework? (yyyy-mm-dd)");
+                        System.out.println("On which date do you want to see lessons? (yyyy-mm-dd)");
                         String DateOfYear = scanner.nextLine().toLowerCase().trim();
                         //String DateOfYear = null;
                         Pattern pattern = Pattern.compile("^(\\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$");
@@ -91,7 +91,7 @@ public class Main {
 
 
                         do{
-                            System.out.println("On which date do you want to see homework? (yyyy-mm-dd)");
+                            System.out.println("On which date do you want to see lessons? (yyyy-mm-dd)");
                             DateOfYear = scanner.nextLine().toLowerCase().trim();
                             pattern = Pattern.compile("^(\\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$");
                             matcher = pattern.matcher (DateOfYear);

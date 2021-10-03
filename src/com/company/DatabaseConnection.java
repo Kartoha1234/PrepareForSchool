@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class DatabaseConnection {
     final String dbURL = "jdbc:mysql://localhost:3306/prepareforschool";
     final String user = "root";
-    final String password = "011RDBrdb230*";
+    final String password = "******";
 
     public void ReadAllHomeworks() throws SQLException {
         try (Connection conn = DriverManager.getConnection(dbURL, user, password)) {
